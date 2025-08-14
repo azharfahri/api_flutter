@@ -47,39 +47,52 @@ class PeminjamenService {
   }
 
   // CREATE peminjaman
-  static Future<Map<String, dynamic>> createPeminjamen(
-    int userId,
-    int bukuId,
-    DateTime tanggalPinjam,
-    DateTime tenggat, {
-    int stokDipinjam = 1,
-    String status = 'dipinjam',
-  }) async {
-    final token = await getToken();
-    final uri = Uri.parse(baseUrl);
-    final request = http.MultipartRequest('POST', uri);
+  // CREATE peminjaman
+  
+static Future<Map<String, dynamic>> createPeminjamen(
+  int bukuId,
+  DateTime tanggalPinjam,
+  DateTime tenggat, {
+  int stokDipinjam = 1,
+  String status = 'dipinjam',
+}) async {
+  final prefs = await SharedPreferences.getInstance();
+  final token = prefs.getString('token');
+  final userId = prefs.getInt('user_id');
 
-    request.fields['user_id'] = userId.toString();
-    request.fields['buku_id'] = bukuId.toString();
-    request.fields['tanggal_pinjam'] = dateFormat.format(tanggalPinjam);
-    request.fields['tenggat'] = dateFormat.format(tenggat);
-    request.fields['status'] = status;
-    request.fields['stok_dipinjam'] = stokDipinjam.toString();
-
-    request.headers['Authorization'] = 'Bearer $token';
-    final response = await request.send();
-    final respStr = await response.stream.bytesToString();
-
-    if (response.statusCode == 201 || response.statusCode == 200) {
-      return jsonDecode(respStr);
-    } else {
-      return {
-        "success": false,
-        "message": "Gagal membuat peminjaman: ${response.statusCode}",
-      };
-    }
+  if (userId == null) {
+    return {
+      "success": false,
+      "message": "User ID tidak ditemukan, silakan login ulang."
+    };
   }
 
+  final uri = Uri.parse(baseUrl);
+  final request = http.MultipartRequest('POST', uri);
+
+  request.fields['user_id'] = userId.toString();
+  request.fields['buku_id'] = bukuId.toString();
+  request.fields['tanggal_pinjam'] = dateFormat.format(tanggalPinjam);
+  request.fields['tenggat'] = dateFormat.format(tenggat);
+  request.fields['status'] = status;
+  request.fields['stok_dipinjam'] = stokDipinjam.toString();
+
+  request.headers['Authorization'] = 'Bearer $token';
+  final response = await request.send();
+  final respStr = await response.stream.bytesToString();
+
+  if (response.statusCode == 201 || response.statusCode == 200) {
+    return jsonDecode(respStr);
+  } else {
+    return {
+      "success": false,
+      "message": "Gagal membuat peminjaman: ${response.statusCode}",
+    };
+  }
+}
+
+
+  // UPDATE peminjaman
   // UPDATE peminjaman
   static Future<bool> updatePeminjamen(
     int id,
@@ -113,6 +126,8 @@ class PeminjamenService {
     final response = await request.send();
     return response.statusCode == 200;
   }
+
+
 
   // DELETE peminjaman
   static Future<bool> deletePeminjamen(int id) async {

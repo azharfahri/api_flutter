@@ -1,3 +1,4 @@
+import 'package:api_flutter/pages/perpustakaan/peminjaman/edit_peminjamen_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:api_flutter/models/peminjaman_model.dart';
 //import 'package:api_flutter/pages/perpustakaan/peminjaman/edit_peminjaman.dart';
@@ -103,20 +104,20 @@ class _PeminjamenDetailState extends State<DetailPeminjamen> {
           ],
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   child: const Icon(Icons.edit),
-      //   onPressed: () async {
-      //     final result = await Navigator.push(
-      //       context,
-      //       MaterialPageRoute(
-      //         builder: (_) => EditPeminjamen(peminjamen: p),
-      //       ),
-      //     );
-      //     if (result == true && mounted) {
-      //       Navigator.pop(context, true);
-      //     }
-      //   },
-      // ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.edit),
+        onPressed: () async {
+          final result = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => EditPeminjamen(peminjamen: p),
+            ),
+          );
+          if (result == true && mounted) {
+            Navigator.pop(context, true);
+          }
+        },
+      ),
     );
   }
 }

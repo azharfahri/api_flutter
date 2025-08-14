@@ -1,139 +1,182 @@
-// To parse this JSON data, do
-//
+// To parse this JSON data:
 //     final peminjamenModel = peminjamenModelFromJson(jsonString);
 
 import 'dart:convert';
 
-PeminjamenModel peminjamenModelFromJson(String str) => PeminjamenModel.fromJson(json.decode(str));
+PeminjamenModel peminjamenModelFromJson(String str) =>
+    PeminjamenModel.fromJson(json.decode(str));
 
-String peminjamenModelToJson(PeminjamenModel data) => json.encode(data.toJson());
+String peminjamenModelToJson(PeminjamenModel data) =>
+    json.encode(data.toJson());
 
 class PeminjamenModel {
-    List<DataPeminjaman>? data;
-    String? message;
-    bool? success;
+  List<DataPeminjaman>? data;
+  String? message;
+  bool? success;
 
-    PeminjamenModel({
-        this.data,
-        this.message,
-        this.success,
-    });
+  PeminjamenModel({
+    this.data,
+    this.message,
+    this.success,
+  });
 
-    factory PeminjamenModel.fromJson(Map<String, dynamic> json) => PeminjamenModel(
-        data: json["data"] == null ? [] : List<DataPeminjaman>.from(json["data"]!.map((x) => DataPeminjaman.fromJson(x))),
+  factory PeminjamenModel.fromJson(Map<String, dynamic> json) =>
+      PeminjamenModel(
+        data: json["data"] == null
+            ? []
+            : List<DataPeminjaman>.from(
+                json["data"]!.map((x) => DataPeminjaman.fromJson(x))),
         message: json["message"],
         success: json["success"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
-        "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
+  Map<String, dynamic> toJson() => {
+        "data": data == null
+            ? []
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
         "message": message,
         "success": success,
-    };
+      };
 }
 
 class DataPeminjaman {
-    int? id;
-    int? userId;
-    int? bukuId;
-    int? stokDipinjam;
-    DateTime? tanggalPinjam;
-    DateTime? tenggat;
-    dynamic tanggalPengembalian;
-    String? status;
-    DateTime? createdAt;
-    DateTime? updatedAt;
-    User? user;
-    Buku? buku;
+  int? id;
+  int? userId;
+  int? bukuId;
+  int? stokDipinjam;
+  DateTime? tanggalPinjam;
+  DateTime? tenggat;
+  DateTime? tanggalPengembalian;
+  String? status;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  User? user;
+  Buku? buku;
 
-    DataPeminjaman({
-        this.id,
-        this.userId,
-        this.bukuId,
-        this.stokDipinjam,
-        this.tanggalPinjam,
-        this.tenggat,
-        this.tanggalPengembalian,
-        this.status,
-        this.createdAt,
-        this.updatedAt,
-        this.user,
-        this.buku,
-    });
+  DataPeminjaman({
+    this.id,
+    this.userId,
+    this.bukuId,
+    this.stokDipinjam,
+    this.tanggalPinjam,
+    this.tenggat,
+    this.tanggalPengembalian,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+    this.user,
+    this.buku,
+  });
 
-    factory DataPeminjaman.fromJson(Map<String, dynamic> json) => DataPeminjaman(
-        id: json["id"],
-        userId: json["user_id"],
-        bukuId: json["buku_id"],
-        stokDipinjam: json["stok_dipinjam"],
-        tanggalPinjam: json["tanggal_pinjam"] == null ? null : DateTime.parse(json["tanggal_pinjam"]),
-        tenggat: json["tenggat"] == null ? null : DateTime.parse(json["tenggat"]),
-        tanggalPengembalian: json["tanggal_pengembalian"],
-        status: json["status"],
-        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-        user: json["user"] == null ? null : User.fromJson(json["user"]),
-        buku: json["buku"] == null ? null : Buku.fromJson(json["buku"]),
+  factory DataPeminjaman.fromJson(Map<String, dynamic> json) {
+    int? parseInt(dynamic val) {
+      if (val == null) return null;
+      if (val is int) return val;
+      return int.tryParse(val.toString());
+    }
+
+    return DataPeminjaman(
+      id: parseInt(json["id"]),
+      userId: parseInt(json["user_id"]),
+      bukuId: parseInt(json["buku_id"]),
+      stokDipinjam: parseInt(json["stok_dipinjam"]),
+      tanggalPinjam: json["tanggal_pinjam"] == null
+          ? null
+          : DateTime.tryParse(json["tanggal_pinjam"]),
+      tenggat: json["tenggat"] == null
+          ? null
+          : DateTime.tryParse(json["tenggat"]),
+      tanggalPengembalian: json["tanggal_pengembalian"] == null
+          ? null
+          : DateTime.tryParse(json["tanggal_pengembalian"]),
+      status: json["status"],
+      createdAt: json["created_at"] == null
+          ? null
+          : DateTime.tryParse(json["created_at"]),
+      updatedAt: json["updated_at"] == null
+          ? null
+          : DateTime.tryParse(json["updated_at"]),
+      user: json["user"] == null ? null : User.fromJson(json["user"]),
+      buku: json["buku"] == null ? null : Buku.fromJson(json["buku"]),
     );
+  }
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "user_id": userId,
         "buku_id": bukuId,
         "stok_dipinjam": stokDipinjam,
-        "tanggal_pinjam": "${tanggalPinjam!.year.toString().padLeft(4, '0')}-${tanggalPinjam!.month.toString().padLeft(2, '0')}-${tanggalPinjam!.day.toString().padLeft(2, '0')}",
-        "tenggat": "${tenggat!.year.toString().padLeft(4, '0')}-${tenggat!.month.toString().padLeft(2, '0')}-${tenggat!.day.toString().padLeft(2, '0')}",
-        "tanggal_pengembalian": tanggalPengembalian,
+        "tanggal_pinjam": tanggalPinjam != null
+            ? "${tanggalPinjam!.year.toString().padLeft(4, '0')}-${tanggalPinjam!.month.toString().padLeft(2, '0')}-${tanggalPinjam!.day.toString().padLeft(2, '0')}"
+            : null,
+        "tenggat": tenggat != null
+            ? "${tenggat!.year.toString().padLeft(4, '0')}-${tenggat!.month.toString().padLeft(2, '0')}-${tenggat!.day.toString().padLeft(2, '0')}"
+            : null,
+        "tanggal_pengembalian": tanggalPengembalian != null
+            ? "${tanggalPengembalian!.year.toString().padLeft(4, '0')}-${tanggalPengembalian!.month.toString().padLeft(2, '0')}-${tanggalPengembalian!.day.toString().padLeft(2, '0')}"
+            : null,
         "status": status,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
         "user": user?.toJson(),
         "buku": buku?.toJson(),
-    };
+      };
 }
 
 class Buku {
-    int? id;
-    String? kodeBuku;
-    String? judul;
-    String? penulis;
-    String? penerbit;
-    int? tahunTerbit;
-    int? stok;
-    int? kategoriId;
-    String? cover;
-    DateTime? createdAt;
-    DateTime? updatedAt;
+  int? id;
+  String? kodeBuku;
+  String? judul;
+  String? penulis;
+  String? penerbit;
+  int? tahunTerbit;
+  int? stok;
+  int? kategoriId;
+  String? cover;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
-    Buku({
-        this.id,
-        this.kodeBuku,
-        this.judul,
-        this.penulis,
-        this.penerbit,
-        this.tahunTerbit,
-        this.stok,
-        this.kategoriId,
-        this.cover,
-        this.createdAt,
-        this.updatedAt,
-    });
+  Buku({
+    this.id,
+    this.kodeBuku,
+    this.judul,
+    this.penulis,
+    this.penerbit,
+    this.tahunTerbit,
+    this.stok,
+    this.kategoriId,
+    this.cover,
+    this.createdAt,
+    this.updatedAt,
+  });
 
-    factory Buku.fromJson(Map<String, dynamic> json) => Buku(
-        id: json["id"],
-        kodeBuku: json["kode_buku"],
-        judul: json["judul"],
-        penulis: json["penulis"],
-        penerbit: json["penerbit"],
-        tahunTerbit: json["tahun_terbit"],
-        stok: json["stok"],
-        kategoriId: json["kategori_id"],
-        cover: json["cover"],
-        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+  factory Buku.fromJson(Map<String, dynamic> json) {
+    int? parseInt(dynamic val) {
+      if (val == null) return null;
+      if (val is int) return val;
+      return int.tryParse(val.toString());
+    }
+
+    return Buku(
+      id: parseInt(json["id"]),
+      kodeBuku: json["kode_buku"],
+      judul: json["judul"],
+      penulis: json["penulis"],
+      penerbit: json["penerbit"],
+      tahunTerbit: parseInt(json["tahun_terbit"]),
+      stok: parseInt(json["stok"]),
+      kategoriId: parseInt(json["kategori_id"]),
+      cover: json["cover"],
+      createdAt: json["created_at"] == null
+          ? null
+          : DateTime.tryParse(json["created_at"]),
+      updatedAt: json["updated_at"] == null
+          ? null
+          : DateTime.tryParse(json["updated_at"]),
     );
+  }
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "kode_buku": kodeBuku,
         "judul": judul,
@@ -145,41 +188,53 @@ class Buku {
         "cover": cover,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
-    };
+      };
 }
 
 class User {
-    int? id;
-    String? name;
-    String? email;
-    dynamic emailVerifiedAt;
-    DateTime? createdAt;
-    DateTime? updatedAt;
+  int? id;
+  String? name;
+  String? email;
+  dynamic emailVerifiedAt;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
-    User({
-        this.id,
-        this.name,
-        this.email,
-        this.emailVerifiedAt,
-        this.createdAt,
-        this.updatedAt,
-    });
+  User({
+    this.id,
+    this.name,
+    this.email,
+    this.emailVerifiedAt,
+    this.createdAt,
+    this.updatedAt,
+  });
 
-    factory User.fromJson(Map<String, dynamic> json) => User(
-        id: json["id"],
-        name: json["name"],
-        email: json["email"],
-        emailVerifiedAt: json["email_verified_at"],
-        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+  factory User.fromJson(Map<String, dynamic> json) {
+    int? parseInt(dynamic val) {
+      if (val == null) return null;
+      if (val is int) return val;
+      return int.tryParse(val.toString());
+    }
+
+    return User(
+      id: parseInt(json["id"]),
+      name: json["name"],
+      email: json["email"],
+      emailVerifiedAt: json["email_verified_at"],
+      createdAt: json["created_at"] == null
+          ? null
+          : DateTime.tryParse(json["created_at"]),
+      updatedAt: json["updated_at"] == null
+          ? null
+          : DateTime.tryParse(json["updated_at"]),
     );
+  }
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "email": email,
         "email_verified_at": emailVerifiedAt,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
-    };
+      };
 }
