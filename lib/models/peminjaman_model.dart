@@ -9,7 +9,7 @@ PeminjamenModel peminjamenModelFromJson(String str) => PeminjamenModel.fromJson(
 String peminjamenModelToJson(PeminjamenModel data) => json.encode(data.toJson());
 
 class PeminjamenModel {
-    List<DataPeminjam>? data;
+    List<DataPeminjaman>? data;
     String? message;
     bool? success;
 
@@ -20,7 +20,7 @@ class PeminjamenModel {
     });
 
     factory PeminjamenModel.fromJson(Map<String, dynamic> json) => PeminjamenModel(
-        data: json["data"] == null ? [] : List<DataPeminjam>.from(json["data"]!.map((x) => DataPeminjam.fromJson(x))),
+        data: json["data"] == null ? [] : List<DataPeminjaman>.from(json["data"]!.map((x) => DataPeminjaman.fromJson(x))),
         message: json["message"],
         success: json["success"],
     );
@@ -32,7 +32,7 @@ class PeminjamenModel {
     };
 }
 
-class DataPeminjam {
+class DataPeminjaman {
     int? id;
     int? userId;
     int? bukuId;
@@ -46,7 +46,7 @@ class DataPeminjam {
     User? user;
     Buku? buku;
 
-    DataPeminjam({
+    DataPeminjaman({
         this.id,
         this.userId,
         this.bukuId,
@@ -61,7 +61,7 @@ class DataPeminjam {
         this.buku,
     });
 
-    factory DataPeminjam.fromJson(Map<String, dynamic> json) => DataPeminjam(
+    factory DataPeminjaman.fromJson(Map<String, dynamic> json) => DataPeminjaman(
         id: json["id"],
         userId: json["user_id"],
         bukuId: json["buku_id"],
