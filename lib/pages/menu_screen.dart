@@ -1,6 +1,6 @@
 import 'package:api_flutter/pages/perpustakaan/buku/list_buku_screen.dart';
 import 'package:api_flutter/pages/perpustakaan/kategoris/list_kategori_screen.dart';
-import 'package:api_flutter/pages/posts/list_post_screen.dart';
+//import 'package:api_flutter/pages/posts/list_post_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:api_flutter/pages/home_screen.dart';
 import 'package:api_flutter/pages/profile_screen.dart';
@@ -17,7 +17,7 @@ class _MenuScreenState extends State<MenuScreen> {
 
   final List<Widget> _pages = [
     const HomeScreen(),
-    const ListPostScreen(),
+    // const ListPostScreen(),
     const ListKategori(),
     const ListBuku(),
     const ProfileScreen()
@@ -63,10 +63,10 @@ class _MenuScreenState extends State<MenuScreen> {
                 icon: Icon(Icons.home_rounded),
                 label: 'Home',
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.article_outlined),
-                label: 'Post',
-              ),
+              // BottomNavigationBarItem(
+              //   icon: Icon(Icons.article_outlined),
+              //   label: 'Post',
+              // ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.article_outlined),
                 label: 'Kategori',
